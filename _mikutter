@@ -1,0 +1,31 @@
+#compdef mikutter
+
+function _mikutter() {
+  : ${(As:,:)_mikutter_subcmd:='generate:generate plugin template at ~/.mikutter/plugin/','spec:generate plugin spec'}
+  local context state line
+  _arguments : \
+    '(:)'--debug'[Debug mode (for development)]' \
+    '(:)'--profile'[Profiling mode (for development)]' \
+    '(:)'--skip-version-check'[Skip library and environment version check]' \
+    '(:)'{-p,--plugin=}'[Plugin slug to load (comma separated)]:slug comma separated: ' \
+    '(:)'--confroot='[set confroot directory]:select directory:_directories' \
+    '(:)'{-d,--daemon}'[]' \
+    '(:)'--clean'[delete all caches and duplicated files]' \
+    '(- *)'{-h,--help}'[Show help]' \
+    '*::commands:->subcmd'
+
+  if [[ "$state" = "subcmd" ]]; then
+    if (( CURRENT == 1 )); then
+      _describe 'comands'  _mikutter_subcmd
+    else
+      case $words[1] in
+        generate)
+          _arguments : '*::plugin slug: '
+          ;;
+        spec)
+          _arguments : '*::select directory:_directories'
+          ;;
+      esac
+    fi
+  fi
+}
