@@ -1,5 +1,9 @@
 #compdef mikutter
 
+# Copyright 2013, pocket
+# Licensed MIT
+# http://opensource.org/licenses/mit-license.php
+
 function _mikutter() {
   : ${(As:,:)_mikutter_subcmd:='generate:generate plugin template at ~/.mikutter/plugin/','spec:generate plugin spec'}
   local context state line
